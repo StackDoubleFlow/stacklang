@@ -1,0 +1,11 @@
+[package]
+name = "stacklang"
+version = "0.1.0"
+authors = ["Ojas Landge <ojaslandge@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+
+
