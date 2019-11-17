@@ -11,10 +11,14 @@ pub enum Separator {
     ClosingParen, // )
     OpeningBlock, // {
     ClosingBlock, // }
+    Semicolon, // ;
 }
 
 pub enum Operator {
-
+    Add,
+    Subtract,
+    Multiply,
+    Divide
 }
 
 pub enum Literal {
