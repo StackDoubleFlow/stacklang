@@ -20,8 +20,8 @@ impl<'a> Lexer<'a> {
         }
     }
 
-    fn push_token(&self, td: TokenData) {
-        self.tokens.as_ref().push(Token { line: self.line, col: self.column, data: td });
+    fn push_token(&mut self, td: TokenData) {
+        self.tokens.push(Token { line: self.line, col: self.column, data: td });
     }
 
     pub fn lex(&self) {
