@@ -4,7 +4,9 @@ use crate::syntax::token::*;
 
 use std::iter::Peekable;
 use std::str::Chars;
+use std::error::Error;
 
+#[derive(Debug, Clone)]
 pub struct LexerError {
     msg: String
 }
@@ -14,6 +16,18 @@ impl LexerError {
         LexerError {
             msg: msg.to_string()
         }
+    }
+}
+
+impl std::fmt::Display for LexerError {
+    fn fmt(&self, fmt: &mut std::fmt::Formatter) -> std::fmt::Result {
+        write!(fmt, "{}", self.msg)
+    }
+}
+
+impl Error for LexerError {
+    fn description(&self) -> &str {
+        &self.msg
     }
 }
 
