@@ -1,9 +1,8 @@
-
 pub enum Keyword {
     Fn,
     If,
     Let,
-    For
+    For,
 }
 
 pub enum Separator {
@@ -11,32 +10,32 @@ pub enum Separator {
     ClosingParen, // )
     OpeningBlock, // {
     ClosingBlock, // }
-    Semicolon, // ;
+    Semicolon,    // ;
 }
 
 pub enum Operator {
     Add,
     Subtract,
     Multiply,
-    Divide
+    Divide,
 }
 
 pub enum Literal {
     Boolean(bool),
     String(String),
     Int(i32),
-    Long(i64)
+    Long(i64),
 }
 
 pub struct Token {
     pub line: usize,
     pub col: usize,
-    pub data: TokenData
+    pub data: TokenData,
 }
 
 pub enum TokenData {
     Identifier(String),
     Keyword(Keyword),
     Separator(Separator),
-    Literal(Literal)
+    Literal(Literal),
 }
