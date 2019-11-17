@@ -17,6 +17,13 @@ pub enum Operator {
 
 }
 
+pub enum Literal {
+    Boolean(bool),
+    String(String),
+    Int(i32),
+    Long(i64)
+}
+
 pub struct Token {
     pub line: usize,
     pub col: usize,
@@ -26,5 +33,6 @@ pub struct Token {
 pub enum TokenData {
     Identifier(String),
     Keyword(Keyword),
-    Separator(Separator)
+    Separator(Separator),
+    Literal(Literal)
 }
