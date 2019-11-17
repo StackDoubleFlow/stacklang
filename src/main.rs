@@ -1,6 +1,9 @@
 
 mod syntax;
 
+use syntax::lexer::Lexer;
+
 fn main() {
-    syntax::lexer::lex("fn main() {}");
+    let lexer = Lexer::new("fn main() {}");
+    lexer.lex();
 }
