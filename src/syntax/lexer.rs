@@ -87,7 +87,11 @@ impl<'a> Lexer<'a> {
                         }
                     }
                     self.push_token(TokenData::Literal(Literal::String(str)));
-                }
+                },
+                '+' => self.push_token(TokenData::Operator(Operator::Add)),
+                '-' => self.push_token(TokenData::Operator(Operator::Subtract)),
+                '*' => self.push_token(TokenData::Operator(Operator::Multiply)),
+                '/' => self.push_token(TokenData::Operator(Operator::Divide)),
                 _ => {}
             }
         }

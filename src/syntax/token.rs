@@ -81,6 +81,7 @@ pub enum TokenData {
     Keyword(Keyword),
     Separator(Separator),
     Literal(Literal),
+    Operator(Operator)
 }
 
 impl std::fmt::Display for TokenData {
@@ -90,7 +91,8 @@ impl std::fmt::Display for TokenData {
             Identifier(name) => write!(f, "(Identifier, {}", name),
             Keyword(keyword) => write!(f, "(Keyword, {}", keyword),
             Separator(separator) => write!(f, "(Keyword, {}", separator),
-            Literal(lit) => write!(f, "(Literal, {}", lit)
+            Literal(lit) => write!(f, "(Literal, {}", lit),
+            Operator(operator) => write!(f, "(Keyword, {}", operator),
         }
     }
 }
