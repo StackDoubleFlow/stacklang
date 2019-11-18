@@ -99,6 +99,7 @@ impl<'a> Lexer<'a> {
                 '}' => self.push_token(TokenData::Separator(Separator::ClosingBlock)),
                 ';' => self.push_token(TokenData::Separator(Separator::Semicolon)),
                 ',' => self.push_token(TokenData::Separator(Separator::Comma)),
+                '.' => self.push_token(TokenData::Separator(Separator::Dot)),
                 '\n' => {
                     self.line +=1;
                     self.col = 0;

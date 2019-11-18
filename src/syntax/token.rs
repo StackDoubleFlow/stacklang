@@ -21,6 +21,7 @@ pub enum Separator {
     ClosingBlock, // }
     Semicolon,    // ;
     Comma,        // ,
+    Dot,          // .
 }
 
 impl std::fmt::Display for Separator {
