@@ -20,6 +20,7 @@ pub enum Separator {
     OpeningBlock, // {
     ClosingBlock, // }
     Semicolon,    // ;
+    Comma,        // ,
 }
 
 impl std::fmt::Display for Separator {

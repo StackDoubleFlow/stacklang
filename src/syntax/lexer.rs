@@ -92,6 +92,16 @@ impl<'a> Lexer<'a> {
                 '-' => self.push_token(TokenData::Operator(Operator::Subtract)),
                 '*' => self.push_token(TokenData::Operator(Operator::Multiply)),
                 '/' => self.push_token(TokenData::Operator(Operator::Divide)),
+                '(' => self.push_token(TokenData::Separator(Separator::OpeningParen)),
+                ')' => self.push_token(TokenData::Separator(Separator::ClosingParen)),
+                '{' => self.push_token(TokenData::Separator(Separator::OpeningBlock)),
+                '}' => self.push_token(TokenData::Separator(Separator::ClosingBlock)),
+                ';' => self.push_token(TokenData::Separator(Separator::Semicolon)),
+                ',' => self.push_token(TokenData::Separator(Separator::Comma)),
+                '\n' => {
+                    self.line +=1;
+                    self.col = 0;
+                }
                 _ => {}
             }
         }
