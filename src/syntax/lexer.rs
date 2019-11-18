@@ -6,7 +6,7 @@ use std::str::Chars;
 
 #[derive(Debug, Clone)]
 pub struct LexerError {
-    msg: String,
+    msg: String
 }
 
 impl LexerError {
@@ -31,8 +31,8 @@ impl Error for LexerError {
 
 pub struct Lexer<'a> {
     pub tokens: Vec<Token>,
-    line: usize,
-    col: usize,
+    pub line: usize,
+    pub col: usize,
     source: Peekable<Chars<'a>>,
 }
 
@@ -40,7 +40,7 @@ impl<'a> Lexer<'a> {
     pub fn new(source: &'a str) -> Lexer {
         Lexer {
             tokens: Vec::new(),
-            line: 0,
+            line: 1,
             col: 0,
             source: source.chars().peekable(),
         }
@@ -61,7 +61,7 @@ impl<'a> Lexer<'a> {
     fn next(&mut self) -> Result<char, LexerError> {
         match self.source.next() {
             Some(ch) => Ok(ch),
-            None => Err(LexerError::new("Reached end of file")),
+            None => Err(LexerError::new("Reached end of buffer")),
         }
     }
 
@@ -76,7 +76,6 @@ impl<'a> Lexer<'a> {
                 '\'' | '"' => {
                     let mut str = String::new();
                     loop {
-                        self.col += 1;
                         match self.next()? {
                             '\'' if ch == '\'' => break,
                             '"' if ch == '"' => break,
@@ -86,7 +85,9 @@ impl<'a> Lexer<'a> {
                             c => str.push(c),
                         }
                     }
+                    let str_len = str.len();
                     self.push_token(TokenData::Literal(Literal::String(str)));
+                    self.col += str_len + 1;
                 },
                 '+' => self.push_token(TokenData::Operator(Operator::Add)),
                 '-' => self.push_token(TokenData::Operator(Operator::Subtract)),
