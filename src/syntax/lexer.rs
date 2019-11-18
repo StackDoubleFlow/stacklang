@@ -103,6 +103,23 @@ impl<'a> Lexer<'a> {
                     self.line +=1;
                     self.col = 0;
                 }
+                _ if ch.is_alphabetic() || ch == '_' => {
+                    let mut text = ch.to_string();
+                    while let Some(next) = self.peek_next() {
+                        if next.is_alphanumeric() || next == '_' {
+                            text.push(self.next()?);
+                        } else {
+                            break;
+                        }
+                    }
+                    self.push_token(match text.as_str() {
+                        "true" => TokenData::Literal(Literal::Boolean(true)),
+                        "false" => TokenData::Literal(Literal::Boolean(false)),
+                        _ => {
+                            TokenData::Identifier(text)
+                        }
+                    });
+                }
                 _ => {}
             }
         }
