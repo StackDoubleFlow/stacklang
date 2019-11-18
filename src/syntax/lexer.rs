@@ -120,6 +120,27 @@ impl<'a> Lexer<'a> {
                         }
                     });
                 }
+                _ if ch.is_numeric() => {
+                    let mut text = ch.to_string();
+                    while let Some(next) = self.peek_next() {
+                        if next.is_numeric() {
+                            text.push(self.next()?);
+                        } else {
+                            break;
+                        }
+                    }
+                    let int : i64 = match text.parse() {
+                        Ok(i) => i,
+                        Err(_) => return Err(LexerError::new("Failed to parse number")) 
+                    };
+                    let text_len = text.len();
+                    if int > 2_147_483_647 {
+                        self.push_token(TokenData::Literal(Literal::Long(int)));
+                    } else {
+                        self.push_token(TokenData::Literal(Literal::Int(int as i32)));
+                    }
+                    self.col += text_len;
+                }
                 _ => {}
             }
         }
