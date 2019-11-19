@@ -1,3 +1,18 @@
+use std::str::FromStr;
+use std::error::Error;
+
+#[derive(Debug)]
+pub struct KeywordError;
+impl std::fmt::Display for KeywordError {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> Result<(), std::fmt::Error> {
+        write!(f, "Token not found")
+    }
+}
+impl Error for KeywordError {
+    fn description(&self) -> &str {
+        "Token not found"
+    }
+}
 
 #[derive(Debug)]
 pub enum Keyword {
@@ -5,6 +20,23 @@ pub enum Keyword {
     If,
     Let,
     For,
+    Return,
+    Switch
+}
+
+impl FromStr for Keyword {
+    type Err = KeywordError;
+    fn from_str(s: &str) -> Result<Keyword, KeywordError> {
+        match s {
+            "fn" => Ok(Keyword::Fn),
+            "if" => Ok(Keyword::If),
+            "let" => Ok(Keyword::Let),
+            "for" => Ok(Keyword::For),
+            "return" => Ok(Keyword::Return),
+            "switch" => Ok(Keyword::Switch),
+            _ => Err(KeywordError)
+        }
+    }
 }
 
 impl std::fmt::Display for Keyword {
@@ -32,10 +64,11 @@ impl std::fmt::Display for Separator {
 
 #[derive(Debug)]
 pub enum Operator {
-    Add,
-    Subtract,
-    Multiply,
-    Divide,
+    Add,          // +
+    Subtract,     // -
+    Multiply,     // *
+    Divide,       // /
+    Assignment    // =
 }
 
 impl std::fmt::Display for Operator {

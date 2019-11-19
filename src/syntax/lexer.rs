@@ -2,7 +2,7 @@ use crate::syntax::token::*;
 
 use std::error::Error;
 use std::iter::Peekable;
-use std::str::Chars;
+use std::str::{Chars, FromStr};
 
 #[derive(Debug, Clone)]
 pub struct LexerError {
@@ -93,6 +93,7 @@ impl<'a> Lexer<'a> {
                 '-' => self.push_token(TokenData::Operator(Operator::Subtract)),
                 '*' => self.push_token(TokenData::Operator(Operator::Multiply)),
                 '/' => self.push_token(TokenData::Operator(Operator::Divide)),
+                '=' => self.push_token(TokenData::Operator(Operator::Assignment)),
                 '(' => self.push_token(TokenData::Separator(Separator::OpeningParen)),
                 ')' => self.push_token(TokenData::Separator(Separator::ClosingParen)),
                 '{' => self.push_token(TokenData::Separator(Separator::OpeningBlock)),
@@ -117,7 +118,11 @@ impl<'a> Lexer<'a> {
                         "true" => TokenData::Literal(Literal::Boolean(true)),
                         "false" => TokenData::Literal(Literal::Boolean(false)),
                         _ => {
-                            TokenData::Identifier(text)
+                            if let Ok(keyword) = Keyword::from_str(text.as_str()) {
+                                TokenData::Keyword(keyword)
+                            } else {
+                                TokenData::Identifier(text)
+                            }
                         }
                     });
                 }
