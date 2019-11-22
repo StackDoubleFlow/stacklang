@@ -6,7 +6,8 @@ fn main() {
     let mut lexer = Lexer::new("
     fn println() {
         let x = 1;
-        return 'this is a test on its intellegence';
+        //bruh
+        return 'this is a test on its intellegence'; /* no way */
     }
 ");
     match lexer.lex() {

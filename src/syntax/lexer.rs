@@ -92,7 +92,6 @@ impl<'a> Lexer<'a> {
                 '+' => self.push_token(TokenData::Operator(Operator::Add)),
                 '-' => self.push_token(TokenData::Operator(Operator::Subtract)),
                 '*' => self.push_token(TokenData::Operator(Operator::Multiply)),
-                '/' => self.push_token(TokenData::Operator(Operator::Divide)),
                 '=' => self.push_token(TokenData::Operator(Operator::Assignment)),
                 '(' => self.push_token(TokenData::Separator(Separator::OpeningParen)),
                 ')' => self.push_token(TokenData::Separator(Separator::ClosingParen)),
@@ -104,7 +103,23 @@ impl<'a> Lexer<'a> {
                 '\n' => {
                     self.line +=1;
                     self.col = 0;
-                }
+                },
+                '/' => {
+                    match self.peek_next().unwrap() { // Recover from error
+                        '/' => while self.next()? != '\n' {},
+                        '*' => {
+                            let mut last: char = 'e';
+                            loop {
+                                let next = self.next()?;
+                                if last == '*' && next == '/' {
+                                    break;
+                                }
+                                last = next;
+                            }
+                        },
+                        _ => self.push_token(TokenData::Operator(Operator::Divide))
+                    }
+                },
                 _ if ch.is_alphabetic() || ch == '_' => {
                     let mut text = ch.to_string();
                     while let Some(next) = self.peek_next() {
