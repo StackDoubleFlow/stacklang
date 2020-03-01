@@ -1,8 +1,11 @@
 use crate::syntax::token::*;
 
-use std::error::Error;
+use std::error;
+use std::fmt;
 use std::iter::Peekable;
 use std::str::{Chars, FromStr};
+
+type Result<T> = std::result::Result<T, LexerError>;
 
 #[derive(Debug, Clone)]
 pub struct LexerError {
@@ -17,13 +20,13 @@ impl LexerError {
     }
 }
 
-impl std::fmt::Display for LexerError {
-    fn fmt(&self, fmt: &mut std::fmt::Formatter) -> std::fmt::Result {
+impl fmt::Display for LexerError {
+    fn fmt(&self, fmt: &mut fmt::Formatter) -> fmt::Result {
         write!(fmt, "{}", self.msg)
     }
 }
 
-impl Error for LexerError {
+impl error::Error for LexerError {
     fn description(&self) -> &str {
         &self.msg
     }
@@ -58,14 +61,14 @@ impl<'a> Lexer<'a> {
         self.source.peek().copied()
     }
 
-    fn next(&mut self) -> Result<char, LexerError> {
+    fn next(&mut self) -> Result<char> {
         match self.source.next() {
             Some(ch) => Ok(ch),
             None => Err(LexerError::new("Reached end of buffer")),
         }
     }
 
-    pub fn lex(&mut self) -> Result<(), LexerError> {
+    pub fn lex(&mut self) -> Result<()> {
         loop {
             if self.peek_next().is_none() {
                 return Ok(());
